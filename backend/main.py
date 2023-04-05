@@ -27,7 +27,7 @@ class Pdf(Resource):
 class Image(Resource):
     def post(self):
         args = img_put_args.parse_args()
-        imgpath = 'sbi1.jpg'
+        imgpath = args["path"]
         imgRecord = ImageRecord(imgpath)
         df = imgRecord.process()
         print(df)
