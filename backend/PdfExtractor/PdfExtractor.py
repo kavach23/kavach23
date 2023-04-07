@@ -1,8 +1,10 @@
-import tabula as tb
+# import tabula as tb
 import pandas as pd
 import csv
 
-import camelot
+# import camelot
+from pdf2image import convert_from_path
+from ImageExtractor.ImageExtractor import ImageRecord
 
 
 class PdfRecord:
@@ -10,11 +12,14 @@ class PdfRecord:
         self.pdfpath = pdfpath
 
     def process(self):
-        # df = tb.read_pdf(self.pdfpath, pages="all")
-        try:
-            tables = camelot.read_pdf(self.pdfpath)
-            tables.export('output.csv', f='csv')
-        except:
-            print("oops")
-        # df = tb.convert_into(self.pdfpath, 'output.csv', output_format='csv', lattice=True, stream=False, pages="all")
-        return tables
+        pages = convert_from_path(self.pdfpath)
+        i = 1
+        for page in pages:
+            page.save('images/img' + str(i)+'.png', 'PNG')
+            i += 1
+
+        for j in range(1, i):
+            imgRecord = ImageRecord('images/img' + str(j)+'.png')
+            # df = imgRecord.process()
+            imgRecord.extractMetadata()
+            # print(df)
