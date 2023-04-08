@@ -19,6 +19,4 @@ class PdfRecord:
             
         for j in range(1, i):
             imgRecord = ImageRecord('images/img' + str(j)+'.png')
-            # df = imgRecord.process()
             imgRecord.extractMetadata()
-            # print(df)
