@@ -125,8 +125,6 @@ class ImageRecord:
         pytesseract.pytesseract.tesseract_cmd = r'C:/Program Files/Tesseract-OCR/tesseract.exe'
         img = self.image
         thresh,img_bin = cv2.threshold(img,128,255,cv2.THRESH_BINARY |cv2.THRESH_OTSU)
-        # cv2.imshow(' ', img_bin)
-        # cv2.waitKey(0)
         
         out = pytesseract.image_to_string(img_bin)
         matches = []
