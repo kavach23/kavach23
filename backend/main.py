@@ -68,6 +68,10 @@ class Pdf(Resource):
 
         transactions = pdfRecord.processTransactions()
 
+        for el in transactions:
+            for entity in entities:
+                if (el[])
+
         for i in range(len(transactions)):
             el = transactions[i]
             transactions[i] = json.dumps(el)

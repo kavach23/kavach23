@@ -38,10 +38,10 @@ class PdfRecord:
         # print(self.result)
             
     def processTransactions(self):
-        # initialize some df here, in each iteration, add extracted rows to this df
          pages = convert_from_path(self.pdfpath)
          i = 1
          transactions = []
+         result = []
          for page in pages:
             imgpath = 'images/img' + str(i)+'.png'
             page.save(imgpath, 'PNG')
@@ -50,6 +50,9 @@ class PdfRecord:
          for j in range(1, i):
             imgRecord = ImageRecord('images/img' + str(j)+'.png')
             df = imgRecord.process()
+
+            for lll in range(2,len(df.index)):
+                result.append(extract_info_sbi(df.iat[lll,2]))
             
             for lll in range(2,len(df.index)):
                 currtransactions = {}
@@ -62,6 +65,7 @@ class PdfRecord:
                 currtransactions["Credit"] = df.iat[lll,5]
                 currtransactions["Balance"] = df.iat[lll,6]
                 transactions.append(currtransactions)
+         self.result = result
          return transactions
 
         #finally return this df

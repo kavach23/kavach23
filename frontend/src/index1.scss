@@ -69,18 +69,15 @@ button:focus-visible {
 }
 
 /* setting the background colour */
-.react-flow
-{
+.react-flow {
   background: rgb(198, 220, 216);
 }
 
-
 /*setting the node colour*/
-.react-flow__node
-{
+.react-flow__node {
   background-color: rgb(0, 52, 89);
-  color:whitesmoke;
+  color: whitesmoke;
   font-weight: 500;
+  padding: 30px;
+  border-radius: 50%;
 }
-
-
