@@ -1,0 +1,17 @@
+.App{
+    .hideinput{
+      display: none;
+    }
+    .pdfinput{
+      background-color: black;
+      color : white;
+      padding : 10px;
+      border-radius: 10px;
+      max-width: 100px;
+      text-align: center;
+      cursor : pointer
+    }
+    .btn{
+      width: 100px;
+    }
+  }

@@ -5,6 +5,9 @@ from flask import Flask, request
 from flask_restful import Api, Resource, reqparse, abort
 from flask_cors import CORS
 
+from models.Entity import Entity
+from models.Transaction import Transaction
+
 app = Flask(__name__)
 CORS(app)
 api = Api(app)
@@ -20,8 +23,8 @@ class Pdf(Resource):
         args = pdf_put_args.parse_args()
         pdfpath = args["path"]
         pdfRecord = PdfRecord(pdfpath)
-        df = pdfRecord.process()
-        print(df)
+        
+        metadata = pdfRecord.extractMetadata()
         return "Table extracted successfully", 200
     
 class Image(Resource):
