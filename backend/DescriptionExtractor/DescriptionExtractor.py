@@ -8,36 +8,49 @@ def extract_info_sbi(s):
     if (s.find("*") != -1):
         split_val = "*"
     s1 = s.split(split_val)
-    print("Method : ", s1[0])
+    
 
     cred_or_debit = "Credit"
+
+    result = {}
+
+    result["Method"] = s1[0]
+
     if (s1[1] == "DR"):
-        cred_or_debit = "Debit"
+       cred_or_debit = "Debit"
     # print(s1)
     try:
-        print("Credit/Debit", cred_or_debit)
+        result["Credit/Debit"]  = cred_or_debit
+        # result.append(s)
     except:
         #do nothing
-        print("---------------------------------------------------------------------------------")
-        return 0
+        result["Credit/Debit"]  = None
 
     try:
-        print(("Ref No."), s1[2])
+        result["Ref No."] =  s1[2]
+        # result.append(s)
     except:
-        print("---------------------------------------------------------------------------------")
-        return 0
+        result["Ref No."] =  None
 
     try:
-        print("To/From : ", s1[3])
+        result["To/From"] = s1[3]
+        # result.append(s)
     except:
-        print("---------------------------------------------------------------------------------")
-        return 0
+        result["To/From"] = None
 
     try:
-        print("Id/UPI Id : ", s1[5])
+        result["Id/UPI Id"] = s1[5]
     except:
-        print("---------------------------------------------------------------------------------")
-        return 0
+        result["Id/UPI Id"] = None
+    
+    try:
+        result["Other Bank"] = s1[4]
+    except:
+        result["Other Bank"] = None
+
+    if (result["Method"].find("UPI") != -1):
+        result["Mobile"] =  s1[5]
+    return result
 
 
 def extract_info_icici(s):
@@ -46,29 +59,36 @@ def extract_info_icici(s):
     split_val = "/"
     s1 = s.split("/")
 
+    result = {}
+
     if s1[0] == "UPI":
         try:
-            print("Mode : ", s1[0])
+            result["Mode"] =  s1[0]
+            result.append(s)
         except:
             print("------------------------------------------------------------------------------------")
             return 0
         try:
-            print("Trans id : ", s1[1])
+            result["Trans id"] =  s1[1]
+            result.append(s)
         except:
             print("------------------------------------------------------------------------------------")
             return 0
         try:
-            print("Remarks : ", s1[2])
+            result["Remarks"] =  s1[2]
+            result.append(s)
         except:
             print("------------------------------------------------------------------------------------")
             return 0
         try:
-            print("UPI Id : ", s1[3])
+            result["UPI Id"]=   s1[3]
+            result.append(s)
         except:
             print("------------------------------------------------------------------------------------")
             return 0
         try:
-            print("Bank Name : ", s1[4])
+            result["Bank Name"] =  s1[4]
+            result.append(s)
         except:
             print("------------------------------------------------------------------------------------")
             return 0

@@ -130,13 +130,13 @@ class ImageRecord:
         print(out)
         matches = []
         keys = [
-            "Account *Name *:",
-            "Address *:",
-            "Date *:",
-            "Account *Number *:",
-            "Account *Description *:",
-            "Branch *:",
-            "Drawing *Power *:"
+            "Account[. \n]*Name[. \n]*:",
+            "Address[. \n]*:",
+            "Date[. \n]*:",
+            "Account[. \n]*Number[. \n]*:",
+            "Account[. \n]*Description[. \n]*:",
+            "Branch[. \n]*:",
+            "Drawing[. \n]*Power[. \n]*:"
         ]
         
         humanKeys = [
