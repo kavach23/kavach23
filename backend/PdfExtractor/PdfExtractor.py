@@ -62,7 +62,6 @@ class PdfRecord:
                 currtransactions["Credit"] = df.iat[lll,5]
                 currtransactions["Balance"] = df.iat[lll,6]
                 transactions.append(currtransactions)
-
          return transactions
 
         #finally return this df
