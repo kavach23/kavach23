@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Spinner } from "react-bootstrap";
 import axios from "axios";
 
-import storage from "./firebase-config";
+import storage from "../../firebase-config";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 function Home() {

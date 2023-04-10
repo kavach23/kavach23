@@ -2,6 +2,7 @@ import "./Flow.scss";
 import "reactflow/dist/base.css";
 
 import React, { useCallback } from "react";
+import { useState } from "react";
 import ReactFlow, {
   Background,
   Controls,
@@ -22,11 +23,11 @@ const initialEdges = [{ id: "e1-2", source: "1", target: "2" }];
 const Flow = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
     [setEdges]
   );
+
   return (
     <div className="flow">
       <ReactFlow

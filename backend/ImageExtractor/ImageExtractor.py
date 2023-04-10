@@ -125,19 +125,18 @@ class ImageRecord:
         pytesseract.pytesseract.tesseract_cmd = r'C:/Program Files/Tesseract-OCR/tesseract.exe'
         img = self.image
         thresh,img_bin = cv2.threshold(img,128,255,cv2.THRESH_BINARY |cv2.THRESH_OTSU)
-        # cv2.imshow(' ', img_bin)
-        # cv2.waitKey(0)
         
         out = pytesseract.image_to_string(img_bin)
+        print(out)
         matches = []
         keys = [
-            "Account *Name *:",
-            "Address *:",
-            "Date *:",
-            "Account *Number *:",
-            "Account *Description *:",
-            "Branch *:",
-            "Drawing *Power *:"
+            "Account[. \n]*Name[. \n]*:",
+            "Address[. \n]*:",
+            "Date[. \n]*:",
+            "Account[. \n]*Number[. \n]*:",
+            "Account[. \n]*Description[. \n]*:",
+            "Branch[. \n]*:",
+            "Drawing[. \n]*Power[. \n]*:"
         ]
         
         humanKeys = [
@@ -148,11 +147,14 @@ class ImageRecord:
             
         data = {}
         for i in range(len(matches) - 1):
+            if matches[i] is None:
+                continue
             curr = matches[i].span()
             nxt = matches[i+1].span()
             value = out[curr[1] : nxt[0]]
             data[humanKeys[i]] = value
         print(data)
+        print(out)
         return data
         
     def show(self):

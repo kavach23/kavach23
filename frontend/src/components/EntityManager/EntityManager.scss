@@ -7,16 +7,19 @@
     min-width: 250px;
     background-color: aliceblue;
     max-height: 75vh;
+
     ::-webkit-scrollbar {
         width: 4.5px;
-      }
-      ::-webkit-scrollbar-track {
+    }
+
+    ::-webkit-scrollbar-track {
         background: #f1f1f1;
-      }
-      ::-webkit-scrollbar-thumb {
+    }
+
+    ::-webkit-scrollbar-thumb {
         background: #888;
         border-radius: 5px;
-      }
+    }
 
     .upload-btn {
         padding: 5px;
@@ -26,25 +29,30 @@
         font-weight: 700;
         border-radius: 3px;
         margin-bottom: 0.5vh;
+
         .plus-icon {
             padding-right: 3px;
         }
     }
+
     .accordion-button {
         padding-top: 6px;
         padding-bottom: 6px;
         padding-left: 10px;
         padding-right: 10px;
     }
+
     .accordion-body {
         padding: 0px;
         max-height: 40vh;
         overflow-y: auto;
-        box-sizing:border-box;
+        box-sizing: border-box;
     }
+
     .inner-btn {
         width: 100%;
     }
+
     .table-btn {
         padding: 5px;
         border: none;
@@ -55,9 +63,30 @@
         margin-top: 0.5vh;
         margin-bottom: 0.5vh;
     }
+
     .clp-btn {
         background-color: aliceblue;
         border: none;
         padding: 0;
+    }
+
+    .fileupload {
+        .hideinput {
+            display: none;
+        }
+
+        .pdfinput {
+            background-color: black;
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 100px;
+            text-align: center;
+            cursor: pointer
+        }
+
+        .btn {
+            width: 100px;
+        }
     }
 }

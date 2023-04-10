@@ -7,6 +7,10 @@ import {
   MdOutlineKeyboardArrowUp,
 } from "react-icons/md";
 import { useState } from "react";
+import storage from "../../firebase-config";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { Spinner } from "react-bootstrap";
+import axios from "axios";
 
 let files = [
   {
@@ -123,17 +127,81 @@ let transactions = [
 
 const EntityManager = (props) => {
   const [showPanel, setShowPanel] = useState(false);
-  const [showTableModal, setShowTableModal] = useState(false);
+  const [file, setFile] = useState(null);
+  const [mode, setMode] = useState("pdf");
+  const [waiting, setWaiting] = useState(false);
+
+  const upload = async () => {
+    var filename = "current.pdf";
+    if (mode == "jpg") {
+      filename = "current.jpg";
+    } else if (mode == "png") {
+      filename = "current.png";
+    }
+    const fileRef = ref(storage, filename);
+    await uploadBytes(fileRef, file);
+    var fileUrl = await getDownloadURL(fileRef).then((url) => {
+      return url;
+    });
+    return fileUrl;
+  };
+
+  const submit = async () => {
+    setWaiting(true);
+    const url = await upload();
+    var body = {
+      path: url,
+    };
+    var posturl = "http://127.0.0.1:5000/pdf";
+    if (mode != "pdf") {
+      posturl = "http://127.0.0.1:5000/img";
+    }
+
+    await axios({
+      method: "post",
+      url: posturl,
+      data: body,
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    setWaiting(false);
+  };
 
   return (
     <div className="entity-manager">
       <TableModal show={showTableModal} setShowTableModal={setShowTableModal} />
       <div className="collapse" id="collapsePanel">
         <div className="d-flex flex-column">
-          <button className="upload-btn">
-            <BsPlusCircleFill className="plus-icon" />
-            Upload
-          </button>
+          <div className="d-flex flex-row fileupload">
+            <label className="pdfinput m-3">
+              <input
+                type="file"
+                accept="pdf"
+                className="hideinput"
+                onChange={(event) => {
+                  var ext = event.target.value.match(/\.([^\.]+)$/)[1];
+                  if (ext == "pdf" || ext == "jpg" || ext == "png") {
+                    setFile(event.target.files[0]);
+                    setMode(ext);
+                  } else {
+                    alert("Please select a pdf or an image file.");
+                  }
+                }}
+              />
+              {file ? "Change" : "Browse"}
+            </label>
+            {waiting ? (
+              <Spinner className="m-3" />
+            ) : (
+              <button className="btn btn-dark m-3" onClick={submit}>
+                Send
+              </button>
+            )}
+          </div>
 
           <div className="accordion" id="emAccordian">
             <div className="accordion-item">
