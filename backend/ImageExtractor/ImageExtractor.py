@@ -129,6 +129,7 @@ class ImageRecord:
         # cv2.waitKey(0)
         
         out = pytesseract.image_to_string(img_bin)
+        print(out)
         matches = []
         keys = [
             "Account *Name *:",
@@ -148,11 +149,14 @@ class ImageRecord:
             
         data = {}
         for i in range(len(matches) - 1):
+            if matches[i] is None:
+                continue
             curr = matches[i].span()
             nxt = matches[i+1].span()
             value = out[curr[1] : nxt[0]]
             data[humanKeys[i]] = value
         print(data)
+        print(out)
         return data
         
     def show(self):

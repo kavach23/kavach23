@@ -28,7 +28,7 @@ pandas==1.5.3
 pbr==5.11.1
 pdfminer.six==20221105
 Pillow==9.5.0
-pycparser==2.21
+pycparser==2.21f
 pyparsing==3.0.9
 pypdf==3.7.0
 pytesseract==0.3.10

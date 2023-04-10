@@ -1,6 +1,7 @@
 # import tabula as tb
 import pandas as pd
 import csv
+from DescriptionExtractor.DescriptionExtractor import *
 
 # import camelot
 from pdf2image import convert_from_path;
@@ -19,6 +20,7 @@ class PdfRecord:
             
         for j in range(1, i):
             imgRecord = ImageRecord('images/img' + str(j)+'.png')
-            # df = imgRecord.process()
-            imgRecord.extractMetadata()
-            # print(df)
+            df = imgRecord.process()
+            # imgRecord.extractMetadata()
+            str1 = df[2].to_string()
+            extract_info_sbi(df.iat[3,2])
