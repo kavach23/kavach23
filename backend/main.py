@@ -28,6 +28,7 @@ class Pdf(Resource):
         pdfpath = args["path"]
         print("Called")
         pdfRecord = PdfRecord(pdfpath)
+        transactions = pdfRecord.processTransactions()
         # print("PDFRECORD : ", pdfRecord)
         print("RESULTS : ", pdfRecord.result)
 
@@ -66,11 +67,11 @@ class Pdf(Resource):
         
         transactions = []
 
-        transactions = pdfRecord.processTransactions()
+        
 
-        for el in transactions:
-            for entity in entities:
-                if (el[])
+        # for el in transactions:
+        #     for entity in entities:
+        #         if (el[])
 
         for i in range(len(transactions)):
             el = transactions[i]
