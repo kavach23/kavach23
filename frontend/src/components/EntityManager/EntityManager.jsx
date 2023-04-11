@@ -1,6 +1,7 @@
 import "./EntityManager.scss";
 import { BsPlusCircleFill, BsTable } from "react-icons/bs";
 import AccListItem from "../AccListItem/AccListItem";
+import TableModal from "../TableModal/TableModal";
 import {
   MdOutlineKeyboardArrowDown,
   MdOutlineKeyboardArrowUp,
@@ -172,6 +173,7 @@ const EntityManager = (props) => {
 
   return (
     <div className="entity-manager">
+      <TableModal show={showTableModal} setShowTableModal={setShowTableModal} />
       <div className="collapse" id="collapsePanel">
         <div className="d-flex flex-column">
           <div className="d-flex flex-row fileupload">
@@ -305,7 +307,7 @@ const EntityManager = (props) => {
             </div>
           </div>
 
-          <button className="table-btn">
+          <button onClick={() => setShowTableModal(true)} className="table-btn">
             <BsTable /> Show Table
           </button>
         </div>

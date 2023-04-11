@@ -1,0 +1,63 @@
+.table-modal {
+    .modal-header {
+        padding: 10px;
+        border: none;
+        padding-bottom: 5px;
+    }
+    .header-btn {
+        border: none;
+        font-weight: 600;
+        background-color: white;
+        font-size: large;
+    }
+    .btn-selected {
+        background-color: gray;
+        border-radius: 10px 10px 0px 0px;
+    }
+    .acc-body {
+        background-color: gray;
+        padding: 6px;
+        border-radius: 0px 0px 10px 10px;
+        padding-top: 10px;
+        .rb {
+            border-right: 1px solid black;
+        }
+        .table-card {
+            background-color: white;
+            border-radius: 10px;
+            margin-top: 5px;
+            margin-left: 5px;
+            margin-right: 5px;
+            padding-top: 2.5px;
+            padding-bottom: 2.5px;
+        }
+        .table-header {
+            margin-left: 5px;
+            margin-right: 9.5px;
+        }
+        .scrollable {
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        ::-webkit-scrollbar {
+            width: 4.5px;
+          }
+          ::-webkit-scrollbar-track {
+            background: gray;
+          }
+          ::-webkit-scrollbar-thumb {
+            background: white;
+            border-radius: 5px;
+          }
+    }
+    .export {
+        margin-top: 4px;
+        border: none;
+        border-radius: 10px;
+        padding: 10px;
+        max-width: 40%;
+        align-self: center;
+        background-color: gainsboro;
+        font-weight: 500;
+    }
+}

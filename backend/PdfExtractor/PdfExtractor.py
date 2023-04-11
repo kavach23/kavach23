@@ -12,29 +12,20 @@ class PdfRecord:
     def __init__(self, pdfpath):
         self.pdfpath = pdfpath
         self.pageimages = []
-        self.convert()
+        # self.convert()
         self.pages = []
         
         
-    def convert(self):
-        pages = convert_from_path(self.pdfpath)
-        i = 1
-        result = []
-        for page in pages:
-            imgpath = 'images/img' + str(i)+'.png'
-            page.save(imgpath, 'PNG')
-            i += 1
-    
-        for j in range(1, i):
-            imgRecord = ImageRecord('images/img' + str(j)+'.png')
-            df = imgRecord.process()
-            # imgRecord.extractMetadata()
+    # def convert(self):
+        # pages = convert_from_path(self.pdfpath)
+        # i = 1
+        
             
-            str1 = df[2].to_string()
-            for lll in range(2,len(df.index)):
-                result.append(extract_info_sbi(df.iat[lll,2]))
-            self.pageimages.append(imgRecord)
-        self.result = result
+    
+        # for j in range(1, i):
+        #     imgRecord = ImageRecord('images/img' + str(j)+'.png')
+        #     self.pageimages.append(imgRecord)
+        # self.result = result
         # print(self.result)
             
     def processTransactions(self):
@@ -42,14 +33,23 @@ class PdfRecord:
          pages = convert_from_path(self.pdfpath)
          i = 1
          transactions = []
+
+         result = []
+
+
          for page in pages:
             imgpath = 'images/img' + str(i)+'.png'
             page.save(imgpath, 'PNG')
             i += 1
+            
     
          for j in range(1, i):
             imgRecord = ImageRecord('images/img' + str(j)+'.png')
+            self.pageimages.append(imgRecord)
             df = imgRecord.process()
+
+            for lll in range(2,len(df.index)):
+                result.append(extract_info_sbi(df.iat[lll,2]))
             
             for lll in range(2,len(df.index)):
                 currtransactions = {}
@@ -62,7 +62,7 @@ class PdfRecord:
                 currtransactions["Credit"] = df.iat[lll,5]
                 currtransactions["Balance"] = df.iat[lll,6]
                 transactions.append(currtransactions)
-
+         self.result = result
          return transactions
 
         #finally return this df
