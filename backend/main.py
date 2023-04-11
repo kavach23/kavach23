@@ -76,7 +76,7 @@ class Pdf(Resource):
         bank = list1[3]
 
         self1 = Entity(acc,accnum,None,None, ifs, bank)
-
+        self1.transactions = transactions
         entities = [self1]
 
         for el in transactions:
@@ -94,6 +94,7 @@ class Pdf(Resource):
                 upi = extract_info_sbi(el["Description"])["Id/UPI Id"]
 
                 other = Entity(name,None,None,upi)
+                other.transactions = [el]
                 entities.append(other)
 
         for i in range(len(transactions)):
@@ -105,7 +106,7 @@ class Pdf(Resource):
         
 
         
-        return "Table extracted successfully", 200
+        return entities, 200
     
 class Image(Resource):
     def post(self):
