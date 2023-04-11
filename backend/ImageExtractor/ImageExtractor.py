@@ -4,7 +4,6 @@ import pandas as pd
 import pytesseract
 import csv
 import matplotlib.pyplot as plt
-
 import re
 
 def sort_contours(cnts, method="left-to-right"):    
@@ -127,6 +126,7 @@ class ImageRecord:
         thresh,img_bin = cv2.threshold(img,128,255,cv2.THRESH_BINARY |cv2.THRESH_OTSU)
         
         out = pytesseract.image_to_string(img_bin)
+        print(out)
         if self.bank == "SBI":
             matches = []
             keys = [
@@ -136,23 +136,30 @@ class ImageRecord:
                 "Account[. \n]*Number[. \n]*:",
                 "Account[. \n]*Description[. \n]*:",
                 "Branch[. \n]*:",
-                "Drawing[. \n]*Power[. \n]*:"
+                "Drawing[. \n]*Power[. :\n]*",
+                "Interest[. \n]*Rate[. :\n]*",
+                "MOD[. \n]*Balance[. :\n]*",
+                "CIF[. \n]*No.[. :\n]*",
+                "IFS[. \n]*Code[. :\n]*",
+                "MICR[. \n]*Code[. :\n]*",
             ]
             
             humanKeys = [
-                "Account Name", "Address", "Date", "Account Number", "Account Description", "Branch", "Drawing Power"
+                "Account Name", "Address", "Date", "Account Number", "Account Description", "Branch", "Drawing Power", "Interest Rate", "MOD Balance", "CIF Number", "IFS Code", "MICR Code"
             ]
             for key in keys:
                 matches.append(re.search(key, out))
                 
             data = {}
             for i in range(len(matches) - 1):
-                if matches[i] is None:
+                if matches[i] is None or matches[i + 1] is None:
                     continue
                 curr = matches[i].span()
                 nxt = matches[i+1].span()
                 value = out[curr[1] : nxt[0]]
+                value = re.sub("\n", "", value)
                 data[humanKeys[i]] = value
+            print(data)
             return data
         
         elif self.bank == "ICICI":
