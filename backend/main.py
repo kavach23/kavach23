@@ -9,6 +9,7 @@ import json
 
 from models.Entity import Entity
 from models.Transaction import Transaction
+from DescriptionExtractor.DescriptionExtractor import *
 
 app = Flask(__name__)
 CORS(app)
@@ -22,6 +23,35 @@ img_put_args.add_argument("path", type=str, help = "Please provide a path")
 
 alltransactions = []
 
+def extract_info(metadata):
+    acc = ""
+    accnum = ""
+    ifs = ""
+    bank = ""
+
+    try:
+        acc = metadata["Account Name"]
+    except:
+        acc = None
+
+    try:
+        accnum =  metadata["Account Number"]
+    except:
+        accnum = None
+
+    try:
+        ifs = metadata["IFS Code"]
+    except:
+        ifs = None
+
+    bank = ""
+    try:
+        bank = ifs[:4]
+    except:
+        bank = None
+
+    return [acc,accnum,ifs,bank]
+
 class Pdf(Resource):
     def post(self):
         args = pdf_put_args.parse_args()
@@ -29,66 +59,52 @@ class Pdf(Resource):
         print("Called")
         pdfRecord = PdfRecord(pdfpath)
         transactions = pdfRecord.processTransactions()
+        
         # print("PDFRECORD : ", pdfRecord)
-        print("RESULTS : ", pdfRecord.result)
-
+        # print("RESULTS : ", pdfRecord.result)
+        print("TRANSACTIONS : ", transactions)
         entity_list = []
 
         metadata = pdfRecord.extractMetadata()
-        print("METADATA : ", metadata)
-        acc = ""
-        accnum = ""
-        ifs = ""
+        # print("METADATA : ", metadata)
 
-        try:
-            acc = metadata["Account Name"]
-        except:
-            acc = None
+        list1 = extract_info(metadata)
 
-        try:
-            accnum =  metadata["Account Number"]
-        except:
-            accnum = None
-
-        try:
-            ifs = metadata["IFS Code"]
-        except:
-            ifs = None
-
-        bank = ""
-        try:
-            bank = ifs[:4]
-        except:
-            bank = None
+        acc = list1[0]
+        accnum = list1[1]
+        ifs = list1[2]
+        bank = list1[3]
 
         self1 = Entity(acc,accnum,None,None, ifs, bank)
 
         entities = [self1]
-        
-        transactions = []
 
-        
+        for el in transactions:
+            flag = False
+            for entity in entities:
+                name = extract_info_sbi(el["Description"])["To/From"]
+                # print(extract_info_sbi(el["Description"]))
+                upi = extract_info_sbi(el["Description"])["Id/UPI Id"]
+                # print(name, entity.name)
+                if (name == entity.name and upi == entity.upiid):
+                    flag = True
+                
+            if flag is False:
+                name = extract_info_sbi(el["Description"])["To/From"]
+                upi = extract_info_sbi(el["Description"])["Id/UPI Id"]
 
-        # for el in transactions:
-        #     for entity in entities:
-        #         if (el[])
+                other = Entity(name,None,None,upi)
+                entities.append(other)
 
         for i in range(len(transactions)):
             el = transactions[i]
             transactions[i] = json.dumps(el)
+        for el in entities:
+            print(json.dumps(el.__dict__))
 
-        print("TRANSACTION : ", transactions)
-        self1.addTransaction(transactions)
+        
 
-        # for el in pdfRecord.result:
-        #     self1 = Entity(None, None, None, el["Id/UPI Id"],None,None,el['To/From'])
-        #     other = Entity(el['To/From'], None, None, el["Id/UPI Id"], None, el["Other Bank"], el['To/From'])
-        #     entity_list.append([json.dumps(self1.__dict__),json.dumps(other.__dict__)])
-    
-
-        # print(entity_list)
-
-        # metadata = pdfRecord.extractMetadata()
+        
         return "Table extracted successfully", 200
     
 class Image(Resource):

@@ -146,4 +146,5 @@ def extract_info_icici(s):
                 print("--------------------------------------------------------------------------------------")
                 return 0
 
+# print(extract_info_sbi("Y TRANSFER-NEFT*PUNB0123820*PUNBH23076622379*IIITBANGALORE*-"))
 #extract_info_sbi("BY TRANSFERNEFT*PUNB0123820*PUNBH23076622379*IIITBANGALORE*-", "file.xls")
