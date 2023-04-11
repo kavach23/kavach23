@@ -100,13 +100,16 @@ class Pdf(Resource):
         for i in range(len(transactions)):
             el = transactions[i]
             transactions[i] = json.dumps(el)
-        for el in entities:
-            print(json.dumps(el.__dict__))
+        for i in range(len(entities)):
+            el = entities[i]
+            entities[i] = json.dumps(el.__dict__)
 
-        
-
-        
-        return entities, 200
+        # print(entit)
+        response = {}
+        response["data"] = entities
+        response = json.dumps(response)
+        print(response)
+        return response, 200
     
 class Image(Resource):
     def post(self):

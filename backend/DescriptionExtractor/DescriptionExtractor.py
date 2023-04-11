@@ -5,19 +5,22 @@ def extract_info_sbi(s):
     s1 = []
     flag = 0
     split_val = "/"
+    # print("Data " , s)
     if (s.find("*") != -1):
         split_val = "*"
     s1 = s.split(split_val)
     
 
-    cred_or_debit = "Credit"
+    cred_or_debit = None
 
     result = {}
 
     result["Method"] = s1[0]
 
-    if (s1[1] == "DR"):
+    if (len(s1) > 2 and s1[1] == "DR"):
        cred_or_debit = "Debit"
+    elif (len(s1) > 2):
+        cred_or_debit = "Credit"
     # print(s1)
     try:
         result["Credit/Debit"]  = cred_or_debit
