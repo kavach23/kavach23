@@ -27,6 +27,18 @@ class PdfRecord:
         #     self.pageimages.append(imgRecord)
         # self.result = result
         # print(self.result)
+
+    def extract_data_sbi(self,df,lll):
+        currtransactions = {}
+        print(lll)
+        currtransactions["Txn Date"] = df.iat[lll,0]
+        currtransactions["Value Date"] = df.iat[lll,1]
+        currtransactions["Description"] = df.iat[lll,2]
+        currtransactions["Ref No./Cheque No."] = df.iat[lll,3]
+        currtransactions["Debit"] = df.iat[lll,4]
+        currtransactions["Credit"] = df.iat[lll,5]
+        currtransactions["Balance"] = df.iat[lll,6]
+        return currtransactions
             
     def processTransactions(self):
         # initialize some df here, in each iteration, add extracted rows to this df
@@ -52,15 +64,7 @@ class PdfRecord:
                 result.append(extract_info_sbi(df.iat[lll,2]))
             
             for lll in range(2,len(df.index)):
-                currtransactions = {}
-                print(lll)
-                currtransactions["Txn Date"] = df.iat[lll,0]
-                currtransactions["Value Date"] = df.iat[lll,1]
-                currtransactions["Description"] = df.iat[lll,2]
-                currtransactions["Ref No./Cheque No."] = df.iat[lll,3]
-                currtransactions["Debit"] = df.iat[lll,4]
-                currtransactions["Credit"] = df.iat[lll,5]
-                currtransactions["Balance"] = df.iat[lll,6]
+                currtransactions = self.extract_data_sbi(df,lll)
                 transactions.append(currtransactions)
          self.result = result
          return transactions
