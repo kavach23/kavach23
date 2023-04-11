@@ -1,0 +1,61 @@
+[
+   {
+    "unique_id": "1",
+    "name": "Jane Smith",
+    "account_number": "987654321098",
+    "phone_number": "+44-777-987-6543",
+    "upi_id": "janesm@upi",
+    "ifsc": "EFGH9876543",
+    "total_money_in": "15000.00",
+    "total_money_out": "1000.00",
+    "number_of_transactions": "8",
+    "transactions": [
+       {
+          "transaction_id": "txn987654321",
+          "date": "2023-04-07",
+          "amount": "500.00",
+          "type": "debit",
+          "description": "Dinner with friends"
+       },
+       {
+          "transaction_id": "txn987654322",
+          "date": "2023-04-05",
+          "amount": "1500.00",
+          "type": "credit",
+          "description": "Freelance payment"
+       }
+    ],
+    "bank_name": "PNB",
+    "upi_vendor": "Hypothetical"
+ }, 
+ {
+   "unique_id": "2",
+   "name": "Jane Smith",
+   "account_number": "987654321098",
+   "phone_number": "+44-777-987-6543",
+   "upi_id": "janesm@upi",
+   "ifsc": "EFGH9876543",
+   "total_money_in": "15000.00",
+   "total_money_out": "1000.00",
+   "number_of_transactions": "8",
+   "transactions": [
+      {
+         "transaction_id": "txn987654321",
+         "date": "2023-04-07",
+         "amount": "500.00",
+         "type": "debit",
+         "description": "Dinner with friends"
+      },
+      {
+         "transaction_id": "txn987654322",
+         "date": "2023-04-05",
+         "amount": "1500.00",
+         "type": "credit",
+         "description": "Freelance payment"
+      }
+   ],
+   "bank_name": "SBI Bank",
+   "upi_vendor": "Hypothetical"
+ }
+]
+ 

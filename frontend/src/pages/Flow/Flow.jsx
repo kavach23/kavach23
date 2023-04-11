@@ -1,7 +1,11 @@
 import "./Flow.scss";
 import "reactflow/dist/base.css";
 
+import TransactionDetails from '../../components/node/TransactionDetails';
+import EdgeTransactions from '../../components/edge/EdgeTransactions';
+
 import React, { useCallback } from "react";
+import { useState } from "react";
 import ReactFlow, {
   Background,
   Controls,
@@ -20,13 +24,26 @@ const initialNodes = [
 const initialEdges = [{ id: "e1-2", source: "1", target: "2" }];
 
 const Flow = () => {
+  const [showTxPanel, setShowTxPanel] = useState(false);
+  const [showNodeDetails, setShowNodeDetails] = useState(false);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  
+  const handleEdgeClick = (event, edge) => {
+    setShowNodeDetails(false);
+    setShowTxPanel(!showTxPanel);
+  };
+
+  const handleNodeClick = (event, edge) => {
+    setShowTxPanel(false);
+    setShowNodeDetails(!showNodeDetails);
+  };
 
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
     [setEdges]
   );
+
   return (
     <div className="flow">
       <ReactFlow
@@ -34,12 +51,29 @@ const Flow = () => {
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
+        onNodeClick={handleNodeClick}
+        onEdgeClick={handleEdgeClick}
         onConnect={onConnect}
         fitView
       >
+        <Panel position="bottom-center">
+        {
+          showNodeDetails === true ? 
+          <TransactionDetails />
+          :
+          ""
+        }
+        {
+          showTxPanel === true ? 
+          <EdgeTransactions />
+          :
+          ""
+        }
+        </Panel>
         <Panel position="top-left">
           <EntityManager />
         </Panel>
+        
         <Background />
         <Controls />
         <MiniMap />
