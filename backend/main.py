@@ -26,20 +26,19 @@ class Pdf(Resource):
     def post(self):
         args = pdf_put_args.parse_args()
         pdfpath = args["path"]
-        print("Called")
-        pdfRecord = PdfRecord(pdfpath)
+        pdfRecord = PdfRecord(pdfpath, "ICICI")
         transactions = pdfRecord.processTransactions()
+        metadata = pdfRecord.extractMetadata()
+        return
+    
         # print("PDFRECORD : ", pdfRecord)
         print("RESULTS : ", pdfRecord.result)
-
         entity_list = []
-
         metadata = pdfRecord.extractMetadata()
         print("METADATA : ", metadata)
         acc = ""
         accnum = ""
         ifs = ""
-
         try:
             acc = metadata["Account Name"]
         except:
@@ -67,28 +66,12 @@ class Pdf(Resource):
         
         transactions = []
 
-        
-
-        # for el in transactions:
-        #     for entity in entities:
-        #         if (el[])
-
         for i in range(len(transactions)):
             el = transactions[i]
             transactions[i] = json.dumps(el)
 
         print("TRANSACTION : ", transactions)
         self1.addTransaction(transactions)
-
-        # for el in pdfRecord.result:
-        #     self1 = Entity(None, None, None, el["Id/UPI Id"],None,None,el['To/From'])
-        #     other = Entity(el['To/From'], None, None, el["Id/UPI Id"], None, el["Other Bank"], el['To/From'])
-        #     entity_list.append([json.dumps(self1.__dict__),json.dumps(other.__dict__)])
-    
-
-        # print(entity_list)
-
-        # metadata = pdfRecord.extractMetadata()
         return "Table extracted successfully", 200
     
 class Image(Resource):

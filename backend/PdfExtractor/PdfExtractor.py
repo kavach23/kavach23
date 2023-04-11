@@ -9,24 +9,12 @@ from ImageExtractor.ImageExtractor import ImageRecord
 class PdfRecord:
     result = []
     pages = []
-    def __init__(self, pdfpath):
+    
+    def __init__(self, pdfpath, bank = "SBI"):
         self.pdfpath = pdfpath
         self.pageimages = []
-        # self.convert()
         self.pages = []
-        
-        
-    # def convert(self):
-        # pages = convert_from_path(self.pdfpath)
-        # i = 1
-        
-            
-    
-        # for j in range(1, i):
-        #     imgRecord = ImageRecord('images/img' + str(j)+'.png')
-        #     self.pageimages.append(imgRecord)
-        # self.result = result
-        # print(self.result)
+        self.bank = bank
             
     def processTransactions(self):
          pages = convert_from_path(self.pdfpath)
@@ -38,9 +26,8 @@ class PdfRecord:
             page.save(imgpath, 'PNG')
             i += 1
             
-    
          for j in range(1, i):
-            imgRecord = ImageRecord('images/img' + str(j)+'.png')
+            imgRecord = ImageRecord('images/img' + str(j)+'.png', self.bank)
             self.pageimages.append(imgRecord)
             df = imgRecord.process()
 
@@ -49,7 +36,6 @@ class PdfRecord:
             
             for lll in range(2,len(df.index)):
                 currtransactions = {}
-                print(lll)
                 currtransactions["Txn Date"] = df.iat[lll,0]
                 currtransactions["Value Date"] = df.iat[lll,1]
                 currtransactions["Description"] = df.iat[lll,2]
@@ -60,11 +46,8 @@ class PdfRecord:
                 transactions.append(currtransactions)
          self.result = result
          return transactions
-
-        #finally return this df
             
     def extractMetadata(self):
-        print(self.pages, PdfRecord.pages)
         if len(self.pageimages):
             page = self.pageimages[0]
             return page.extractMetadata()
