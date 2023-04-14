@@ -56,7 +56,7 @@ const Flow = () => {
         onConnect={onConnect}
         fitView
       >
-        <Panel position="bottom-center">
+        <Panel className="bg" position="bottom-center">
         {
           showNodeDetails === true ? 
           <TransactionDetails />
