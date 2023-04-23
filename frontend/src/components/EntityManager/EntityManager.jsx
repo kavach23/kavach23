@@ -130,6 +130,7 @@ const EntityManager = (props) => {
   const [file, setFile] = useState(null);
   const [mode, setMode] = useState("pdf");
   const [waiting, setWaiting] = useState(false);
+  const [showTableModal, setShowTableModal] = useState(false);
 
   const upload = async () => {
     var filename = "current.pdf";

@@ -56,18 +56,11 @@ class Pdf(Resource):
     def post(self):
         args = pdf_put_args.parse_args()
         pdfpath = args["path"]
-        print("Called")
         pdfRecord = PdfRecord(pdfpath)
         transactions = pdfRecord.processTransactions()
-        
-        # print("PDFRECORD : ", pdfRecord)
-        # print("RESULTS : ", pdfRecord.result)
-        print("TRANSACTIONS : ", transactions)
+        # print("TRANSACTIONS : ", transactions)
         entity_list = []
-
         metadata = pdfRecord.extractMetadata()
-        # print("METADATA : ", metadata)
-
         list1 = extract_info(metadata)
 
         acc = list1[0]
