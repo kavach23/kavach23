@@ -1,63 +1,92 @@
-,0,1,2,3,4,5,6,7
-0," 22
-"," 23/02/2023
-"," 23/02/2023
-", ," UPI/342098592481/UPI/sundarajlatha-
-1/Bank of
-India/IC|IO0Oce9ab8087e42b38c6ef81 21
-"," 17500.00
-"," 0.0
-"," 315386.03
+
+,0,1,2,3,4,5,6
+0, ,     , , , , , 
+1," Txn Date
+"," Value
+Date
+"," Description
+"," Ref No./Cheque
+No.
+"," Debit
+"," Credit
+"," Balance
 "
-1," 23
-"," 23/02/2023
-"," 23/02/2023
-", ," UPI/305467093298/UPI/bakyavenkade
-san/ICICl
-Bank/IC11f7c0842c9bd435d8259efa655
-ae
-"," 16000.00
-"," 0.0
-"," 299386.03
+2," 1 Jan 2023
+"," 1 Jan 2023
+"," TO TRANSFER-
+UPI/DR/300175218100/SUBHA
+JEE/HDFC/subhajeetl/UPI-
+"," TRANSFER TO
+4694443162098
+"," 280.00
+", ," 12.60
 "
-2," 28
-"," 25/02/2023
-"," 25/02/2023
-", ," UPI/342273046494/UPI/jayanta1 2barik
-@/Canara
-Bank/IC13da672791ef44eedb932e01b1
-d7
-"," 534.00
-"," 0.0
-"," 300237.03
+3," 20 Jan
+2023
+"," 20 Jan
+2023
+"," BY TRANSFER-
+UPI/CR/302070732968/SUBHA
+JEE/HDFC/subhajeetl/UPI-
+"," TRANSFER
+FROM
+4693452162095
+", ," 2,000.00
+"," 2,012.60
 "
-3," 29
-"," 25/02/2023
-"," 25/02/2023
-", ," UPI/342249426877/NA/Q44056801@y
-bl/Yes Bank
-Ltd/PTM3821f661e427477c92eb718c1
-8bee
-"," 1500.00
-", ," 298737.03
+4," 18 Feb
+2023
+"," 18 Feb
+2023
+"," TO TRANSFER-
+UPI/DR/341595761241/Domino
+s /PYTM/dominospiz/NA-
+"," TRANSFER TO
+4696978162096
+"," 324.00
+", ," 1,688.60
 "
-4," 33
-"," 28/02/2023
-"," 28/02/2023
-", ," NEFT-SBIN423059693031-POWER
-GRID CORPORATION OF INDIA LTD-
-‘AT TN//INB-0000003672
-"," 0.0
-"," 198230.00
-"," 398130.03
+5," 21 Feb
+2023
+"," 21 Feb
+2023
+"," TO TRANSFER-
+UPI/DR/305276989220/SUBHA
+JEE/HDFC/subhajeetl/UPI-
+"," TRANSFER TO
+4693871162098
+"," 1,600.00
+", ," 88.60
 "
-5," 34
-"," 28/02/2023
-"," 28/02/2023
-", ," UP1I/305908021409/UPI/dhineshkumar9
-35/Axis Bank
-Ltd./ICI6f51647 1da5d492984231823
-"," 1500.00
-"," 0.0
-"," 396630.03
+6," 10 Mar
+2023
+"," 10 Mar
+2023
+"," BY TRANSFER-
+NEF T*HDFC0000240*N069232
+36632091 1*INDIAN CLEARING
+"," TRANSFER
+FROM
+4697197044300
+", ," 3,628.24
+"," 3,716.84
 "
+7," 10 Mar
+2023
+"," 10 Mar
+2023
+"," TO TRANSFER-
+UPI/DR/306921177904/HARSH
+KU/SBIN/7991141345/UPI-
+"," TRANSFER TO
+4695726162091
+"," 333.00
+", ," 3,383.84
+"
+8," 25 Mar
+2023
+"," 25 Mar
+2023
+"," CREDIT INTEREST--
+", , ," 9.00
+"," 3,392.84

@@ -69,7 +69,7 @@ class Pdf(Resource):
         bank = list1[3]
 
         self1 = Entity(acc,accnum,None,None, ifs, bank)
-
+        self1.transactions = transactions
         entities = [self1]
 
         for el in transactions:
@@ -87,16 +87,22 @@ class Pdf(Resource):
                 upi = extract_info_sbi(el["Description"])["Id/UPI Id"]
 
                 other = Entity(name,None,None,upi)
+                other.transactions = [el]
                 entities.append(other)
 
         for i in range(len(transactions)):
             el = transactions[i]
             transactions[i] = json.dumps(el)
-        for el in entities:
-            print(json.dumps(el.__dict__))
+        for i in range(len(entities)):
+            el = entities[i]
+            entities[i] = json.dumps(el.__dict__)
 
-        
-        return "Table extracted successfully", 200
+        # print(entit)
+        response = {}
+        response["data"] = entities
+        response = json.dumps(response)
+        print(response)
+        return response, 200
     
 class Image(Resource):
     def post(self):
