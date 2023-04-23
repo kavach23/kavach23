@@ -6,7 +6,7 @@ import {
   MdOutlineKeyboardArrowDown,
   MdOutlineKeyboardArrowUp,
 } from "react-icons/md";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import storage from "../../firebase-config";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { Spinner } from "react-bootstrap";
@@ -132,6 +132,9 @@ const EntityManager = (props) => {
   const [waiting, setWaiting] = useState(false);
   const [showTableModal, setShowTableModal] = useState(false);
 
+  const [entities, setEntities] = useState([])
+  const [transactions, setTransactions] = useState([])
+
   const upload = async () => {
     var filename = "current.pdf";
     if (mode == "jpg") {
@@ -146,17 +149,21 @@ const EntityManager = (props) => {
     });
     return fileUrl;
   };
+ 
 
   const submit = async () => {
     setWaiting(true);
     const url = await upload();
     var body = {
       path: url,
+      bank : "SBI"
     };
     var posturl = "http://127.0.0.1:5000/pdf";
     if (mode != "pdf") {
       posturl = "http://127.0.0.1:5000/img";
     }
+
+    
 
     await axios({
       method: "post",
@@ -164,13 +171,28 @@ const EntityManager = (props) => {
       data: body,
     })
       .then((response) => {
-        console.log(response);
+        const respData = JSON.parse(response.data)["data"]
+        var entitylist = [];
+        var transactionlist = [];
+        for(var i in respData){
+          const entity = JSON.parse(respData[i])
+          const tslist = entity["transactions"]
+          delete entity.transactions
+          entitylist.push(entity)
+          transactionlist = transactionlist.concat(tslist)
+        }
+        setEntities([...entities, ...entitylist]);
+        setTransactions([...transactions, ...transactionlist])
       })
       .catch((error) => {
         console.log(error);
       });
     setWaiting(false);
   };
+
+  // useEffect(()=>{
+  //   console.log(entities)
+  // }, [entities])
 
   return (
     <div className="entity-manager">
@@ -198,7 +220,7 @@ const EntityManager = (props) => {
             {waiting ? (
               <Spinner className="m-3" />
             ) : (
-              <button className="btn btn-dark m-3" onClick={submit}>
+              <button className="btn btn-primary m-3" onClick={submit}>
                 Send
               </button>
             )}

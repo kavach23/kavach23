@@ -9,8 +9,8 @@ export default function Routing() {
     <div>
       <Router>
         <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/flow" element={<Flow />} />
+          <Route exact path="/deprecated" element={<Home />} />
+          <Route exact path="/" element={<Flow />} />
           <Route exact path="/custom" element={<App />} />
         </Routes>
       </Router>
