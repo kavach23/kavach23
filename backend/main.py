@@ -62,7 +62,8 @@ class Pdf(Resource):
         
         # print("PDFRECORD : ", pdfRecord)
         # print("RESULTS : ", pdfRecord.result)
-        print("TRANSACTIONS : ", transactions)
+        # print("TRANSACTIONS : ", transactio
+        # ns)
         entity_list = []
 
         metadata = pdfRecord.extractMetadata()
@@ -74,10 +75,13 @@ class Pdf(Resource):
         accnum = list1[1]
         ifs = list1[2]
         bank = list1[3]
+       
 
         self1 = Entity(acc,accnum,None,None, ifs, bank)
         self1.transactions = transactions
         entities = [self1]
+
+        print("Transactions ... ", transactions)
 
         for el in transactions:
             flag = False
@@ -93,7 +97,13 @@ class Pdf(Resource):
                 name = extract_info_sbi(el["Description"])["To/From"]
                 upi = extract_info_sbi(el["Description"])["Id/UPI Id"]
 
+                mode = "Debit"
+
+                if (el["Debit"] == ''):
+                    mode = "Credit" 
+
                 other = Entity(name,None,None,upi)
+                other.setMode(mode)
                 other.transactions = [el]
                 entities.append(other)
 
@@ -102,14 +112,16 @@ class Pdf(Resource):
             transactions[i] = json.dumps(el)
         for i in range(len(entities)):
             el = entities[i]
+            print(el.mode)
             entities[i] = json.dumps(el.__dict__)
 
         # print(entit)
         response = {}
         response["data"] = entities
         response = json.dumps(response)
-        print(response)
-        return response, 200
+        
+        # print(response["data"]["mode"])
+        return entities, 200
     
 class Image(Resource):
     def post(self):

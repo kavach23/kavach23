@@ -15,6 +15,7 @@ class Entity:
         self.transactions = []
         self.moneyin = 0
         self.moneyout = 0
+        self.mode = "DEBIT"
         
     def addTransaction(self, transactions):
         for transaction in transactions:
@@ -24,4 +25,5 @@ class Entity:
             else:
                 self.moneyin += transaction.value
         
-    
+    def setMode(self,mode):
+        self.mode = mode
