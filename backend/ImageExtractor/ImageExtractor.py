@@ -4,7 +4,6 @@ import pandas as pd
 import pytesseract
 import csv
 import matplotlib.pyplot as plt
-
 import re
 
 def sort_contours(cnts, method="left-to-right"):    
@@ -20,16 +19,17 @@ def sort_contours(cnts, method="left-to-right"):
     return (cnts, boundingBoxes)
 
 class ImageRecord:
-    def __init__(self, imagepath):
+    def __init__(self, imagepath, bank):
         self.imagepath = imagepath
         self.image = cv2.imread(imagepath, 0)
+        self.bank = bank
         
     def process(self):
         pytesseract.pytesseract.tesseract_cmd = r'C:/Program Files/Tesseract-OCR/tesseract.exe'
         img = self.image
         thresh,img_bin = cv2.threshold(img,128,255,cv2.THRESH_BINARY |cv2.THRESH_OTSU)
         img_bin = 255-img_bin
-        
+        img = img_bin
         kernel_len = np.array(img).shape[1]//100
         ver_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (1, kernel_len))
         hor_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (kernel_len, 1))
@@ -118,7 +118,6 @@ class ImageRecord:
                     outer.append(inner)
         arr = np.array(outer)
         dataframe = pd.DataFrame(arr.reshape(len(row),countcol))
-        dataframe.to_csv("output.csv")
         return dataframe
     
     def extractMetadata(self):
@@ -128,35 +127,74 @@ class ImageRecord:
         
         out = pytesseract.image_to_string(img_bin)
         print(out)
-        matches = []
-        keys = [
-            "Account[. \n]*Name[. \n]*:",
-            "Address[. \n]*:",
-            "Date[. \n]*:",
-            "Account[. \n]*Number[. \n]*:",
-            "Account[. \n]*Description[. \n]*:",
-            "Branch[. \n]*:",
-            "Drawing[. \n]*Power[. \n]*:"
-        ]
-        
-        humanKeys = [
-            "Account Name", "Address", "Date", "Account Number", "Account Description", "Branch", "Drawing Power"
-        ]
-        for key in keys:
-            matches.append(re.search(key, out))
+        if self.bank == "SBI":
+            matches = []
+            keys = [
+                "Account[. \n]*Name[. \n]*:",
+                "Address[. \n]*:",
+                "Date[. \n]*:",
+                "Account[. \n]*Number[. \n]*:",
+                "Account[. \n]*Description[. \n]*:",
+                "Branch[. \n]*:",
+                "Drawing[. \n]*Power[. :\n]*",
+                "Interest[. \n]*Rate[. :\n]*",
+                "MOD[. \n]*Balance[. :\n]*",
+                "CIF[. \n]*No.[. :\n]*",
+                "IFS[. \n]*Code[. :\n]*",
+                "MICR[. \n]*Code[. :\n]*",
+            ]
             
-        data = {}
-        for i in range(len(matches) - 1):
-            if matches[i] is None:
-                continue
-            curr = matches[i].span()
-            nxt = matches[i+1].span()
-            value = out[curr[1] : nxt[0]]
-            data[humanKeys[i]] = value
-        print(data)
-        print(out)
-        return data
+            humanKeys = [
+                "Account Name", "Address", "Date", "Account Number", "Account Description", "Branch", "Drawing Power", "Interest Rate", "MOD Balance", "CIF Number", "IFS Code", "MICR Code"
+            ]
+            for key in keys:
+                matches.append(re.search(key, out))
+                
+            data = {}
+            for i in range(len(matches) - 1):
+                if matches[i] is None or matches[i + 1] is None:
+                    continue
+                curr = matches[i].span()
+                nxt = matches[i+1].span()
+                value = out[curr[1] : nxt[0]]
+                value = re.sub("\n", "", value)
+                data[humanKeys[i]] = value
+            print(data)
+            return data
         
+        elif self.bank == "ICICI":
+            matches = []
+            keys = [
+                "Account[. \n]*Number[. \n]*",
+                "Transaction[. \n]*Date[. \n]*",
+            ]
+            for key in keys:
+                matches.append(re.search(key, out))
+            details = ""
+            for i in range(len(matches) - 1):
+                if matches[i] is None or matches[i + 1] is None:
+                    continue
+                curr = matches[i].span()
+                nxt = matches[i+1].span()
+                value = out[curr[1] : nxt[0]]
+                details = value
+            details = list(details.split('-'));
+            for i in range(len(details)):
+                details[i] = details[i].strip("\n")
+                details[i] = details[i].strip(" ")
+            data = {}
+            try:
+                data["Account Number"] = details[0]
+                print(data["Account Number"])
+                data["Account Number"] = re.sub(r'[A-Z()]','',data["Account Number"])
+            except:
+                data["Account Number"] = None
+            try:
+                data["Account Name"] = details[1]
+            except:
+                data["Account Name"] = None
+            return data
+                
     def show(self):
         plot = plt.imshow(self.image)
         plt.show()

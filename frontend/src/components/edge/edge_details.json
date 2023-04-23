@@ -1,0 +1,7 @@
+[  
+    {    "unique_id": "1",    "name": "John Doe",    "account_number": "1234567890",    "number_of_transaction": 20,    "total_money_in": 5000,    "total_money_out": 3500  },
+    {    "unique_id": "2",    "name": "Jane Smith",    "account_number": "0987654321",    "number_of_transaction": 12,    "total_money_in": 8000,    "total_money_out": 2000  },
+    {    "unique_id": "3",    "name": "Bob Johnson",    "account_number": "5678901234",    "number_of_transaction": 6,    "total_money_in": 2000,    "total_money_out": 1500  }
+]
+
+  

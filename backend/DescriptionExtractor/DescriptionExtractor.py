@@ -9,9 +9,9 @@ def extract_info_sbi(s):
     if (s.find("*") != -1):
         split_val = "*"
     s1 = s.split(split_val)
-    
 
     cred_or_debit = None
+
 
     result = {}
 

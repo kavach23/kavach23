@@ -1,0 +1,55 @@
+.edge_transaction{
+.container{
+    background-color: aliceblue;
+    border: 2px solid grey;
+    border-radius: 6px;
+    height: 200px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: right;
+    overflow:hidden;
+  }
+  div {
+    padding: 5px;
+ }
+.fitem{
+  font-weight: bolder;
+}
+.fans{
+  font-weight: normal;
+}
+.header{
+  color: black;
+  justify-content: left;
+  flex-direction: row;
+}
+button{
+  position: relative;
+  left: 30%;
+}
+button {
+  background-image: linear-gradient(to right, #c5e0ec 0%, #6fcdf5  51%, #6595ef  100%)
+}
+button {
+          // margin: 10px;
+          // padding: 15px 45px;
+          text-align: center;
+          text-transform: uppercase;
+          transition: 0.8s;
+          background-size: 200% auto;
+          color: white;            
+          box-shadow: 0 0 20px #eee;
+          border-radius: 10px;
+          display: block;
+          border:1px solid #FFFFFF;
+    }
+ button:hover {
+ background-position: right center; /* change the direction of the change here*/
+  color: #fff;
+  text-decoration: none;
+  }
+
+}
+  
