@@ -12,6 +12,37 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { Spinner } from "react-bootstrap";
 import axios from "axios";
 
+class Queue {
+  constructor() {
+    this.items = {}
+    this.frontIndex = 0
+    this.backIndex = 0
+  }
+  enqueue(item) {
+    this.items[this.backIndex] = item
+    this.backIndex++
+    return item + ' inserted'
+  }
+  dequeue() {
+    const item = this.items[this.frontIndex]
+    delete this.items[this.frontIndex]
+    this.frontIndex++
+    return item
+  }
+  peek() {
+    return this.items[this.frontIndex]
+  }
+  get printQueue() {
+    return this.items;
+  }
+
+  // isEmpty function
+  isEmpty() {
+    // return true if the queue is empty.
+    return this.items.length === 0;
+  }
+}
+
 let files = [
   {
     id: 1,
@@ -135,6 +166,9 @@ const EntityManager = (props) => {
   const [entities, setEntities] = useState([])
   const [transactions, setTransactions] = useState([])
 
+  const [adj, setAdj] = useState([])
+  // const [weight, setWeight] = useState()
+
   const upload = async () => {
     var filename = "current.pdf";
     if (mode == "jpg") {
@@ -149,21 +183,59 @@ const EntityManager = (props) => {
     });
     return fileUrl;
   };
- 
+
 
   const submit = async () => {
     setWaiting(true);
     const url = await upload();
     var body = {
       path: url,
-      bank : "SBI"
+      bank: "SBI"
     };
     var posturl = "http://127.0.0.1:5000/pdf";
     if (mode != "pdf") {
       posturl = "http://127.0.0.1:5000/img";
     }
 
-    
+
+    const bfs = (adj) => {
+      const q = new Queue();
+      var done = [];
+      var depth = new Array(adj.length + 1);
+      for (var i = 0; i < adj.length; i++) {
+        if (adj[i].length !== 0) {
+          q.enqueue(i);
+          depth[i] = 0;
+          // done.push(i);
+          break;
+        }
+      }
+
+      while (q.isEmpty !== true) {
+        var curr = q.peek();
+        if (curr === undefined) break;
+        q.dequeue();
+        done.push(curr);
+        for (var i = 0; i < adj[curr].length; i++) {
+          var flag1 = 0;
+          for (var k = 0; k < done.length; k++) {
+            if (done[k] === adj[curr][i][0]) {
+              console.log("Donnee", done[k])
+              flag1 = 1;
+            }
+          }
+          if (flag1 === 1) continue;
+          depth[adj[curr][i][0]] = depth[curr] + 1;
+          q.enqueue(adj[curr][i][0])
+        }
+        console.log(curr, q.isEmpty(), q.peek());
+        // break;
+
+      }
+
+      console.log(depth);
+    }
+
 
     await axios({
       method: "post",
@@ -171,18 +243,74 @@ const EntityManager = (props) => {
       data: body,
     })
       .then((response) => {
-        const respData = JSON.parse(response.data)["data"]
-        var entitylist = [];
-        var transactionlist = [];
-        for(var i in respData){
-          const entity = JSON.parse(respData[i])
-          const tslist = entity["transactions"]
-          delete entity.transactions
-          entitylist.push(entity)
-          transactionlist = transactionlist.concat(tslist)
+        // const respData = JSON.parse((response.data)[0])
+
+        console.log(response.data)
+        // console.log(respData)
+
+        // setEntities([...entities, ...entitylist]);
+        // setTransactions([...transactions, ...transactionlist])
+
+
+        var txns = [];
+
+        for (var i = 0; i < response.data[1].length; i++) {
+          var str = response.data[1][i]
+          var curr = JSON.parse(str)
+          txns.push(curr)
+          // console.log(str,curr)
         }
-        setEntities([...entities, ...entitylist]);
-        setTransactions([...transactions, ...transactionlist])
+
+        // console.log(txns)
+        setTransactions(txns);
+
+        var ent = [];
+        for (var i = 0; i < response.data[0].length; i++) {
+          var str = response.data[0][i]
+          var curr = JSON.parse(str)
+          ent.push(curr)
+          // console.log(str,curr)
+        }
+
+        setEntities(ent)
+
+        const weights = new Map();
+
+        var adj_temp = new Array(txns.length + 1)
+
+        for (i = 0; i < txns.length; i++) {
+          adj_temp[i] = new Array(0);
+        }
+        console.log(txns)
+        for (var i = 0; i < txns.length; i++) {
+          var obj = txns[i]
+          var u = obj["fromid"]
+          var v = obj["toid"]
+
+          // console.log(obj, txns)
+
+          // console.log(u, v, adj_temp[u])
+          var flag = 0
+          for (var j = 0; j < adj_temp[u].length; j++) {
+            if (adj_temp[u][j][0] === v) {
+
+              adj_temp[u][j][1] += parseFloat(obj["value"])
+              flag = 1
+            }
+          }
+
+          if (flag === 0) {
+            var val = parseFloat(obj["value"])
+            adj_temp[u].push([v, val])
+          }
+
+        }
+
+        console.log(adj_temp)
+        setAdj(adj_temp);
+
+        bfs(adj_temp);
+
       })
       .catch((error) => {
         console.log(error);
