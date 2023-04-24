@@ -3,6 +3,7 @@ import csv
 from DescriptionExtractor.DescriptionExtractor import *
 
 from pdf2image import convert_from_path
+from models.Transaction import *
 from ImageExtractor.ImageExtractor import ImageRecord
 
 
@@ -27,6 +28,7 @@ class PdfRecord:
         currtransactions["Debit"] = df.iat[lll,4]
         currtransactions["Credit"] = df.iat[lll,5]
         currtransactions["Balance"] = df.iat[lll,6]
+
         return currtransactions
             
     def processTransactions(self):
