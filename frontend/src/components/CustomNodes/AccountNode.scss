@@ -1,0 +1,14 @@
+.account-node {
+    background-color: rgb(141, 227, 240);
+    color: black;
+    font-weight: 400;
+    border-radius: 50%;
+    padding: 10px;
+    border: 1px solid black;
+    font-size: 60%;
+    display: flex;
+    .identifier {
+        height: 100%;
+        margin-bottom: 0;
+    }
+}
