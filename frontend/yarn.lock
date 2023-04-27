@@ -5483,7 +5483,7 @@
     "locate-path" "^6.0.0"
     "path-exists" "^4.0.0"
 
-"firebase@^9.18.0":
+"firebase@^9.19.1":
   "integrity" "sha512-MeukV4NIk6usV1ZbnoA36gumK62JzxOZmF6OZyqkFwJ7edpAEyYNZXvExQlFsvnx2ery0UwNIvu4pKIZS3HiEQ=="
   "resolved" "https://registry.npmjs.org/firebase/-/firebase-9.19.1.tgz"
   "version" "9.19.1"
@@ -8728,7 +8728,7 @@
   dependencies:
     "@remix-run/router" "1.5.0"
 
-"react-scripts@5.0.1":
+"react-scripts@^5.0.1":
   "integrity" "sha512-8VAmEm/ZAwQzJ+GOMLbBsTdDKOpuZh7RPs0UymvBR2vRk4iZWCskjbFnxqjrzoIvlNNRZ3QJFx6/qDSi6zSnaQ=="
   "resolved" "https://registry.npmjs.org/react-scripts/-/react-scripts-5.0.1.tgz"
   "version" "5.0.1"
